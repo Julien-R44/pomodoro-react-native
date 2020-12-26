@@ -1,0 +1,12 @@
+{
+  "name": "pomoreact",
+  "displayName": "pomoreact",
+  "expo": {
+    "name": "pomoreact",
+    "slug": "pomoreact",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
