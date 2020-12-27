@@ -12,7 +12,7 @@ interface AppState {
   gaugeFill: number
 }
 
-const WORK_SESSION_DURATION = 12
+const WORK_SESSION_DURATION = 60
 
 export default class PomoTimer extends Component {
   state: Readonly<AppState> = {
@@ -79,8 +79,11 @@ export default class PomoTimer extends Component {
           <AnimatedCircularProgress
             size={220}
             width={5}
+            backgroundWidth={1}
             fill={this.state.gaugeFill}
             tintColor="#F87073"
+            tintColorSecondary="#00ff00"
+            rotation={180}
             backgroundColor="#3d5875"
             onAnimationComplete={() => console.log('onAnimationComplete')}
           >
@@ -100,6 +103,7 @@ export default class PomoTimer extends Component {
 const styles = StyleSheet.create({
   gaugeContainer: {
     flex: 1,
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center'
   }

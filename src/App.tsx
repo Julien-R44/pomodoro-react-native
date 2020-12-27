@@ -1,17 +1,16 @@
 import React, { Component } from 'react'
-import { StyleSheet, SafeAreaView } from 'react-native'
-
 import {
   NunitoSans_200ExtraLight,
   NunitoSans_400Regular,
   NunitoSans_700Bold
 } from '@expo-google-fonts/dev'
 import AppLoading from 'expo-app-loading'
-import { StatusBar } from 'expo-status-bar'
 import * as Font from 'expo-font'
-import SafeViewAndroid from './components/SafeViewAndroid'
-import Header from './components/Header'
-import PomoTimer from './components/timer/PomoTimer'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import HomeScreen from 'screens/Home'
+
+const Stack = createStackNavigator()
 
 export default class App extends Component {
   state = {
@@ -36,18 +35,15 @@ export default class App extends Component {
       return <AppLoading />
     }
     return (
-      <SafeAreaView style={[styles.container, SafeViewAndroid.AndroidSafeArea]}>
-        <Header />
-        <PomoTimer />
-        <StatusBar style="light" />
-      </SafeAreaView>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false
+          }}
+        >
+          <Stack.Screen name="Home" component={HomeScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#1F2240'
-  }
-})
