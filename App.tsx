@@ -11,7 +11,7 @@ import { StatusBar } from 'expo-status-bar'
 import * as Font from 'expo-font'
 import SafeViewAndroid from './components/SafeViewAndroid'
 import Header from './components/Header'
-import PomoTimer from './components/PomoTimer'
+import PomoTimer from './components/timer/PomoTimer'
 
 export default class App extends Component {
   state = {
@@ -27,7 +27,7 @@ export default class App extends Component {
     this.setState({ fontsLoaded: true })
   }
 
-  componentDidMount(): void {
+  componentDidMount() {
     this._loadFontsAsync()
   }
 

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
+import PomoTimerInner from './PomoTimerInner'
+import { PomoStatus } from './PomoStatus'
 
 interface AppState {
-  fontsLoaded: boolean
   pomoStatus: PomoStatus
   workSessionDuration: number
   timeLeft: number
@@ -11,17 +12,10 @@ interface AppState {
   gaugeFill: number
 }
 
-enum PomoStatus {
-  RUNNING,
-  PAUSED,
-  NOT_RUNNING
-}
-
 const WORK_SESSION_DURATION = 12
 
 export default class PomoTimer extends Component {
   state: Readonly<AppState> = {
-    fontsLoaded: false,
     pomoStatus: PomoStatus.NOT_RUNNING,
     workSessionDuration: WORK_SESSION_DURATION,
     timeLeft: WORK_SESSION_DURATION,
@@ -45,6 +39,14 @@ export default class PomoTimer extends Component {
         return { pomoStatus: PomoStatus.RUNNING, timerInterval }
       })
     }
+
+    if (this.state.pomoStatus === PomoStatus.RUNNING) {
+      return this.setState({ pomoStatus: PomoStatus.PAUSED })
+    }
+
+    if (this.state.pomoStatus === PomoStatus.PAUSED) {
+      return this.setState({ pomoStatus: PomoStatus.RUNNING })
+    }
   }
 
   onPressPause() {
@@ -60,23 +62,14 @@ export default class PomoTimer extends Component {
     if (timeLeft <= 0) {
       timeLeft = 0
       clearInterval(this.state.timerInterval)
+      return this.setState({
+        pomoStatus: PomoStatus.NOT_RUNNING,
+        timeLeft: WORK_SESSION_DURATION,
+        gaugeFill: 0
+      })
     }
 
     this.setState({ timeLeft, gaugeFill })
-  }
-
-  padTime(time: number): string {
-    return (time < 10 ? '0' : '') + time
-  }
-
-  minutesLeft(): string {
-    const minutes = Math.floor(this.state.timeLeft / 60)
-    return this.padTime(minutes)
-  }
-
-  secondsLeft(): string {
-    const seconds = this.state.timeLeft - +this.minutesLeft() * 60
-    return this.padTime(seconds)
   }
 
   render() {
@@ -92,12 +85,10 @@ export default class PomoTimer extends Component {
             onAnimationComplete={() => console.log('onAnimationComplete')}
           >
             {() => (
-              <View style={styles.gaugeInnerContainer}>
-                <Text style={styles.gaugeTimeLeft}>
-                  {`${this.minutesLeft()} : ${this.secondsLeft()}`}
-                </Text>
-                <Text style={styles.gaugePause}></Text>
-              </View>
+              <PomoTimerInner
+                timeLeft={this.state.timeLeft}
+                pomoStatus={this.state.pomoStatus}
+              />
             )}
           </AnimatedCircularProgress>
         </TouchableOpacity>
@@ -111,22 +102,5 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  gaugeInnerContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  gaugeTimeLeft: {
-    color: 'white',
-    fontFamily: 'NunitoSans_700Bold',
-    fontSize: 49
-  },
-  gaugePause: {
-    color: 'white',
-    fontSize: 16,
-    fontFamily: 'NunitoSans_200ExtraLight',
-    textTransform: 'uppercase',
-    letterSpacing: 10
   }
 })
