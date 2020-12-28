@@ -1,103 +1,82 @@
-import React, { Component } from 'react'
-import { StyleSheet, View, TouchableOpacity } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View, TouchableOpacity, Text } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import PomoTimerInner from './PomoTimerInner'
 import { PomoStatus } from './PomoStatus'
 
-interface AppState {
-  pomoStatus: PomoStatus
-  workSessionDuration: number
-  timeLeft: number
-  timerInterval: number | undefined
-  gaugeFill: number
-}
+const WORK_SESSION_DURATION = 25
 
-const WORK_SESSION_DURATION = 60
+export default function PomoTimer() {
+  const [pomoStatus, setPomoStatus] = useState(PomoStatus.NOT_RUNNING)
+  const [timeLeft, setTimeLeft] = useState(WORK_SESSION_DURATION)
+  const [gaugeFill, setGaugeFill] = useState(0)
+  let timerInterval: NodeJS.Timeout
 
-export default class PomoTimer extends Component {
-  state: Readonly<AppState> = {
-    pomoStatus: PomoStatus.NOT_RUNNING,
-    workSessionDuration: WORK_SESSION_DURATION,
-    timeLeft: WORK_SESSION_DURATION,
-    timerInterval: undefined,
-    gaugeFill: 0
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.state.timerInterval)
-  }
-
-  getPercentageOfWorkSessionCompletion() {
-    const { timeLeft, workSessionDuration } = this.state
-    return ((workSessionDuration - timeLeft + 1) / workSessionDuration) * 100
-  }
-
-  onPressTimer() {
-    if (this.state.pomoStatus === PomoStatus.NOT_RUNNING) {
-      return this.setState(() => {
-        const timerInterval = setInterval(() => this.countdown(), 1000)
-        return { pomoStatus: PomoStatus.RUNNING, timerInterval }
-      })
+  useEffect(() => {
+    return () => {
+      clearInterval(timerInterval)
     }
+  }, [])
 
-    if (this.state.pomoStatus === PomoStatus.RUNNING) {
-      return this.setState({ pomoStatus: PomoStatus.PAUSED })
-    }
-
-    if (this.state.pomoStatus === PomoStatus.PAUSED) {
-      return this.setState({ pomoStatus: PomoStatus.RUNNING })
-    }
-  }
-
-  onPressPause() {
-    this.setState({ pomoStatus: PomoStatus.PAUSED })
-  }
-
-  countdown() {
-    let timeLeft = this.state.timeLeft - 1
-    const gaugeFill = this.getPercentageOfWorkSessionCompletion()
-
-    if (this.state.pomoStatus === PomoStatus.PAUSED) return
-
-    if (timeLeft <= 0) {
-      timeLeft = 0
-      clearInterval(this.state.timerInterval)
-      return this.setState({
-        pomoStatus: PomoStatus.NOT_RUNNING,
-        timeLeft: WORK_SESSION_DURATION,
-        gaugeFill: 0
-      })
-    }
-
-    this.setState({ timeLeft, gaugeFill })
-  }
-
-  render() {
+  const getPercentageOfWorkSessionCompletion = (timeLeft: number) => {
     return (
-      <View style={styles.gaugeContainer}>
-        <TouchableOpacity onPress={this.onPressTimer.bind(this)}>
-          <AnimatedCircularProgress
-            size={220}
-            width={5}
-            backgroundWidth={1}
-            fill={this.state.gaugeFill}
-            tintColor="#F87073"
-            tintColorSecondary="#00ff00"
-            rotation={180}
-            backgroundColor="#3d5875"
-            onAnimationComplete={() => console.log('onAnimationComplete')}
-          >
-            {() => (
-              <PomoTimerInner
-                timeLeft={this.state.timeLeft}
-                pomoStatus={this.state.pomoStatus}
-              />
-            )}
-          </AnimatedCircularProgress>
-        </TouchableOpacity>
-      </View>
+      ((WORK_SESSION_DURATION - timeLeft + 1) / WORK_SESSION_DURATION) * 100
     )
   }
+
+  const countdown = () => {
+    if (pomoStatus === PomoStatus.PAUSED) return
+
+    setTimeLeft((prevTimeLeft) => {
+      let newTimeLeft = prevTimeLeft - 1
+      if (newTimeLeft <= 0) {
+        newTimeLeft = 0
+        clearInterval(timerInterval)
+        setPomoStatus(PomoStatus.NOT_RUNNING)
+        setGaugeFill(0)
+        return WORK_SESSION_DURATION
+      }
+      setGaugeFill(getPercentageOfWorkSessionCompletion(prevTimeLeft))
+      return newTimeLeft
+    })
+  }
+
+  const onPressTimer = () => {
+    if (pomoStatus === PomoStatus.NOT_RUNNING) {
+      setPomoStatus(PomoStatus.RUNNING)
+      timerInterval = setInterval(() => {
+        countdown()
+      }, 1000)
+      return
+    }
+
+    if (pomoStatus === PomoStatus.RUNNING) {
+      return setPomoStatus(PomoStatus.PAUSED)
+    }
+
+    if (pomoStatus === PomoStatus.PAUSED) {
+      return setPomoStatus(PomoStatus.RUNNING)
+    }
+  }
+
+  return (
+    <View style={styles.gaugeContainer}>
+      <TouchableOpacity onPress={onPressTimer}>
+        <AnimatedCircularProgress
+          size={270}
+          width={10}
+          backgroundWidth={5}
+          fill={gaugeFill}
+          tintColor="#F87073"
+          // tintColorSecondary="#00ff00"
+          rotation={180}
+          backgroundColor="#3d5875"
+        >
+          {() => <PomoTimerInner timeLeft={timeLeft} pomoStatus={pomoStatus} />}
+        </AnimatedCircularProgress>
+      </TouchableOpacity>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -105,6 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginBottom: 30
   }
 })

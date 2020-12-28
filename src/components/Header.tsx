@@ -1,10 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Text, StyleSheet } from 'react-native'
 
-export default class Header extends Component {
-  render() {
-    return <Text style={styles.title}>pomoreact.</Text>
-  }
+export default function Header() {
+  return <Text style={styles.title}>pomoreact.</Text>
 }
 
 const styles = StyleSheet.create({

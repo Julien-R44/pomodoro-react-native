@@ -1,25 +1,12 @@
 import { Ionicons } from '@expo/vector-icons'
-import React from 'react'
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Modal,
-  Text,
-  TouchableWithoutFeedback
-} from 'react-native'
+import React, { useState } from 'react'
+import { View, StyleSheet, TouchableOpacity, Modal, Text } from 'react-native'
 import { Picker } from '@react-native-community/picker'
 
-export default class Settings extends React.Component {
-  setModalVisibility(visible: boolean) {
-    this.setState({ modalVisible: visible })
-  }
+export default function Settings() {
+  const [modalVisible, setModalVisible] = useState(false)
 
-  state = {
-    modalVisible: true
-  }
-
-  renderTimeItems() {
+  const renderTimeItems = () => {
     const items = []
     for (let i = 5; i < 55; i += 5) {
       items.push(<Picker.Item key={i} label={i.toString()} value={i} />)
@@ -27,51 +14,43 @@ export default class Settings extends React.Component {
     return items
   }
 
-  render() {
-    return (
-      <View>
-        <View style={styles.modalContainer}>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={this.state.modalVisible}
-          >
-            <View style={styles.modalInnerContainer}>
-              <View style={styles.modalTitleViewContainer}>
-                <View style={styles.modalTitleView}>
-                  <Text style={styles.modalTitle}>Settings</Text>
-                  <TouchableOpacity
-                    onPress={() => this.setModalVisibility(false)}
-                  >
-                    <Ionicons name="md-close-outline" size={35} color="black" />
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              <View style={styles.settingsContainer}>
-                <Text style={styles.settingTitle}>Time (minutes)</Text>
-
-                <View style={styles.timesContainer}>
-                  <Picker onValueChange={(value: any) => console.log(value)}>
-                    {this.renderTimeItems()}
-                  </Picker>
-                  <Picker onValueChange={(value: any) => console.log(value)}>
-                    {this.renderTimeItems()}
-                  </Picker>
-                </View>
+  return (
+    <View>
+      <View style={styles.modalContainer}>
+        <Modal animationType="fade" transparent={true} visible={modalVisible}>
+          <View style={styles.modalInnerContainer}>
+            <View style={styles.modalTitleViewContainer}>
+              <View style={styles.modalTitleView}>
+                <Text style={styles.modalTitle}>Settings</Text>
+                <TouchableOpacity onPress={() => setModalVisible(false)}>
+                  <Ionicons name="md-close-outline" size={35} color="black" />
+                </TouchableOpacity>
               </View>
             </View>
-          </Modal>
-        </View>
 
-        <TouchableOpacity onPress={() => this.setModalVisibility(true)}>
-          <View style={styles.container}>
-            <Ionicons name="md-settings-outline" size={35} color="grey" />
+            <View style={styles.settingsContainer}>
+              <Text style={styles.settingTitle}>Time (minutes)</Text>
+
+              <View style={styles.timesContainer}>
+                <Picker onValueChange={(value: any) => console.log(value)}>
+                  {renderTimeItems()}
+                </Picker>
+                <Picker onValueChange={(value: any) => console.log(value)}>
+                  {renderTimeItems()}
+                </Picker>
+              </View>
+            </View>
           </View>
-        </TouchableOpacity>
+        </Modal>
       </View>
-    )
-  }
+
+      <TouchableOpacity onPress={() => setModalVisible(true)}>
+        <View style={styles.container}>
+          <Ionicons name="md-settings-sharp" size={35} color="grey" />
+        </View>
+      </TouchableOpacity>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -92,12 +71,7 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
-    // padding: 20,
-    // paddingLeft: 20,
-    // paddingRight: 20,
     paddingBottom: 20,
-    // paddingTop: 10,
-    // alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -114,7 +88,6 @@ const styles = StyleSheet.create({
   modalTitleView: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    // padding: '0 10'
     paddingHorizontal: 20,
     paddingTop: 10,
     paddingBottom: 10
