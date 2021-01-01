@@ -3,6 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Text } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import PomoTimerInner from './PomoTimerInner'
 import { PomoStatus } from './PomoStatus'
+import { LinearGradient } from 'expo-linear-gradient'
 
 const WORK_SESSION_DURATION = 25
 
@@ -61,20 +62,28 @@ export default function PomoTimer() {
 
   return (
     <View style={styles.gaugeContainer}>
-      <TouchableOpacity onPress={onPressTimer}>
-        <AnimatedCircularProgress
-          size={270}
-          width={10}
-          backgroundWidth={5}
-          fill={gaugeFill}
-          tintColor="#F87073"
-          // tintColorSecondary="#00ff00"
-          rotation={180}
-          backgroundColor="#3d5875"
-        >
-          {() => <PomoTimerInner timeLeft={timeLeft} pomoStatus={pomoStatus} />}
-        </AnimatedCircularProgress>
-      </TouchableOpacity>
+      <LinearGradient
+        colors={['rgba(0,0,0,0.3)', 'transparent']}
+        start={{ x: 0.8, y: 0.5 }}
+        style={styles.gaugeInnerContainer}
+      >
+        <TouchableOpacity onPress={onPressTimer}>
+          <AnimatedCircularProgress
+            size={270}
+            width={10}
+            backgroundWidth={5}
+            fill={gaugeFill}
+            tintColor="#F87073"
+            // tintColorSecondary="#00ff00"
+            rotation={180}
+            backgroundColor="#3d5875"
+          >
+            {() => (
+              <PomoTimerInner timeLeft={timeLeft} pomoStatus={pomoStatus} />
+            )}
+          </AnimatedCircularProgress>
+        </TouchableOpacity>
+      </LinearGradient>
     </View>
   )
 }
@@ -86,5 +95,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 30
+  },
+  gaugeInnerContainer: {
+    backgroundColor: '#161A33',
+    borderRadius: 500,
+    padding: 10
   }
 })
