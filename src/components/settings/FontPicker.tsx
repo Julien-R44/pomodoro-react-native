@@ -10,7 +10,7 @@ export default function FontPicker() {
   const activeFont = state.fontFamily
 
   const onFontPress = (fontFamily: string) => {
-    dispatch({ type: 'CHANGE_FONT', fontFamily })
+    dispatch({ type: 'UPDATE_FONT', fontFamily })
   }
 
   return (

@@ -8,7 +8,10 @@ const initialState: IAppState = {
     mainColor: '#F87071'
   },
   fontFamily: 'NunitoSans',
-  pomodoroDuration: 25
+  pomodoroDuration: 1,
+  shortDuration: 1,
+  longDuration: 1,
+  selectedTab: 'pomo'
 }
 
 interface AppContext {

@@ -5,4 +5,7 @@ export default interface AppState {
   }
   fontFamily: string
   pomodoroDuration: number
+  shortDuration: number
+  longDuration: number
+  selectedTab: 'pomo' | 'short' | 'long'
 }

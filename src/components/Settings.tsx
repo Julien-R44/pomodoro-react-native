@@ -11,13 +11,19 @@ import BaseText from '@components/BaseText'
 export default function Settings() {
   const [modalVisible, setModalVisible] = useState(false)
   const [pomoDuration, setPomoDuration] = useState('25')
+  const [shortDuration, setShortDuration] = useState('5')
+  const [longDuration, setLongDuration] = useState('40')
   const { dispatch } = useStateValue()
 
-  const onPomoDurationUpdate = (newDuration: string) => {
-    setPomoDuration(newDuration)
+  const onDurationUpdate = (
+    typeAction: string,
+    newDuration: string,
+    setStateAction: React.Dispatch<React.SetStateAction<string>>
+  ) => {
+    setStateAction(newDuration)
     dispatch({
-      type: 'UPDATE_POMODORO_DURATION',
-      pomodoroDuration: newDuration
+      type: typeAction,
+      duration: newDuration
     })
   }
 
@@ -41,12 +47,39 @@ export default function Settings() {
               <View style={styles.timesContainer}>
                 <NumericInput
                   value={pomoDuration}
-                  onChangeText={onPomoDurationUpdate}
+                  onChangeText={(newDuration) =>
+                    onDurationUpdate(
+                      'UPDATE_POMO_DURATION',
+                      newDuration,
+                      setPomoDuration
+                    )
+                  }
                   style={styles.timeInput}
                   label="pomodoro"
                 />
-                <NumericInput style={styles.timeInput} label="short break" />
-                <NumericInput label="long break" />
+                <NumericInput
+                  value={shortDuration}
+                  onChangeText={(newDuration) =>
+                    onDurationUpdate(
+                      'UPDATE_SHORT_DURATION',
+                      newDuration,
+                      setShortDuration
+                    )
+                  }
+                  style={styles.timeInput}
+                  label="short break"
+                />
+                <NumericInput
+                  value={longDuration}
+                  onChangeText={(newDuration) =>
+                    onDurationUpdate(
+                      'UPDATE_LONG_DURATION',
+                      newDuration,
+                      setLongDuration
+                    )
+                  }
+                  label="long break"
+                />
               </View>
 
               <Delimiter />

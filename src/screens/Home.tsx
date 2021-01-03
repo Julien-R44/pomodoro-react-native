@@ -7,8 +7,13 @@ import Settings from 'components/Settings'
 import TabsSelector from 'components/TabsSelector'
 import { StatusBar } from 'expo-status-bar'
 import { LinearGradient } from 'expo-linear-gradient'
+import { useStateValue } from 'store/store'
 
 export default function Home() {
+  const {
+    state: { selectedTab }
+  } = useStateValue()
+
   return (
     <SafeAreaView style={[styles.container, SafeViewAndroid.AndroidSafeArea]}>
       <LinearGradient
@@ -20,7 +25,7 @@ export default function Home() {
       >
         <Header />
         <TabsSelector />
-        <PomoTimer />
+        <PomoTimer selectedTab={selectedTab} />
         <Settings />
         <StatusBar style="light" />
       </LinearGradient>

@@ -1,16 +1,15 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, TouchableOpacity } from 'react-native'
-import { navigate } from 'RootNavigation'
 import { useStateValue } from 'store/store'
 import BaseText from '@components/BaseText'
 
 export default function TabsSelector() {
-  const [active, setActive] = useState(1)
-  const { state } = useStateValue()
+  const [active, setActive] = useState('pomo')
+  const { state, dispatch } = useStateValue()
 
-  const onTabPress = (tabId: number) => {
+  const onTabPress = (tabId: string) => {
     setActive(tabId)
-    navigate('ShortBreak')
+    dispatch({ type: 'UPDATE_SELECTED_TAB', selectedTab: tabId })
   }
 
   const activeItem = {
@@ -21,22 +20,22 @@ export default function TabsSelector() {
   return (
     <View style={{ alignSelf: 'center' }}>
       <View style={styles.container}>
-        <TouchableOpacity onPress={() => onTabPress(1)}>
-          <View style={[styles.item, active === 1 ? activeItem : []]}>
+        <TouchableOpacity onPress={() => onTabPress('pomo')}>
+          <View style={[styles.item, active === 'pomo' ? activeItem : []]}>
             <BaseText weight="light" style={styles.itemText}>
               pomodoro
             </BaseText>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => onTabPress(2)}>
-          <View style={[styles.item, active === 2 ? activeItem : []]}>
+        <TouchableOpacity onPress={() => onTabPress('short')}>
+          <View style={[styles.item, active === 'short' ? activeItem : []]}>
             <BaseText weight="light" style={styles.itemText}>
               short break
             </BaseText>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => onTabPress(3)}>
-          <View style={[styles.item, active === 3 ? activeItem : []]}>
+        <TouchableOpacity onPress={() => onTabPress('long')}>
+          <View style={[styles.item, active === 'long' ? activeItem : []]}>
             <BaseText weight="light" style={styles.itemText}>
               long break
             </BaseText>

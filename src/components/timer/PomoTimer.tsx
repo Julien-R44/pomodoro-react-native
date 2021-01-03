@@ -1,58 +1,85 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, TouchableOpacity } from 'react-native'
+import React, { useState, useEffect, useRef } from 'react'
+import { StyleSheet, View, TouchableOpacity, Vibration } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import PomoTimerInner from './PomoTimerInner'
 import { PomoStatus } from './PomoStatus'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useStateValue } from 'store/store'
+import { Audio } from 'expo-av'
+// import NotifSound from 'assets/sounds/notification.mp3'
+import useInterval from 'hooks/useInterval'
 
-export default function PomoTimer() {
+interface PomoTimerProps {
+  selectedTab: 'pomo' | 'short' | 'long'
+}
+
+export default function PomoTimer({ selectedTab }: PomoTimerProps) {
   const { state } = useStateValue()
-  const { pomodoroDuration } = state
+  const { pomodoroDuration, shortDuration, longDuration } = state
   const [timeLeft, setTimeLeft] = useState(pomodoroDuration * 60)
   const [pomoStatus, setPomoStatus] = useState(PomoStatus.NOT_RUNNING)
   const [gaugeFill, setGaugeFill] = useState(0)
-  let timerInterval: NodeJS.Timeout
+  const statusRef = useRef<PomoStatus>()
+  const [timerDuration, setTimerDuration] = useState<number>(0)
+
+  useInterval(
+    () => {
+      if (
+        statusRef.current === PomoStatus.PAUSED ||
+        statusRef.current === PomoStatus.NOT_RUNNING
+      )
+        return
+
+      setTimeLeft((prevTimeLeft) => {
+        let newTimeLeft = prevTimeLeft - 1
+        if (newTimeLeft <= 0) {
+          Audio.Sound.createAsync(
+            require('../../../assets/sounds/notification.mp3')
+          ).then(async (response: unknown) => {
+            const { sound, status } = response
+
+            Vibration.vibrate(10 * 100)
+            sound.playAsync()
+          })
+
+          newTimeLeft = 0
+          setPomoStatus(PomoStatus.NOT_RUNNING)
+          setGaugeFill(0)
+          return timerDuration * 60
+        }
+        setGaugeFill(getPercentageOfWorkSessionCompletion(prevTimeLeft))
+        return newTimeLeft
+      })
+    },
+    pomoStatus === PomoStatus.RUNNING ? 1000 : null
+  )
+
+  statusRef.current = pomoStatus
 
   useEffect(() => {
-    setTimeLeft(pomodoroDuration * 60)
-  }, [pomodoroDuration])
+    const selectedTabTimerDuration = {
+      pomo: 0.1,
+      short: shortDuration,
+      long: longDuration
+    }[selectedTab]
+
+    setTimerDuration(selectedTabTimerDuration)
+    setGaugeFill(0)
+    setPomoStatus(PomoStatus.NOT_RUNNING)
+    setTimeLeft(timerDuration * 60)
+  }, [selectedTab])
 
   useEffect(() => {
-    return () => {
-      clearInterval(timerInterval)
-    }
-  }, [])
+    setTimeLeft(timerDuration * 60)
+  }, [timerDuration])
 
   const getPercentageOfWorkSessionCompletion = (timeLeft: number) => {
-    return (
-      ((pomodoroDuration * 60 - timeLeft + 1) / (pomodoroDuration * 60)) * 100
-    )
-  }
-
-  const countdown = () => {
-    if (pomoStatus === PomoStatus.PAUSED) return
-
-    setTimeLeft((prevTimeLeft) => {
-      let newTimeLeft = prevTimeLeft - 1
-      if (newTimeLeft <= 0) {
-        newTimeLeft = 0
-        clearInterval(timerInterval)
-        setPomoStatus(PomoStatus.NOT_RUNNING)
-        setGaugeFill(0)
-        return pomodoroDuration
-      }
-      setGaugeFill(getPercentageOfWorkSessionCompletion(prevTimeLeft))
-      return newTimeLeft
-    })
+    return ((timerDuration * 60 - timeLeft + 1) / (timerDuration * 60)) * 100
   }
 
   const onPressTimer = () => {
     if (pomoStatus === PomoStatus.NOT_RUNNING) {
       setPomoStatus(PomoStatus.RUNNING)
-      timerInterval = setInterval(() => {
-        countdown()
-      }, 1000)
       return
     }
 

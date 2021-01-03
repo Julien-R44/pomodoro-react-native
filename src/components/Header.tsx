@@ -11,6 +11,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 32,
     textAlign: 'center',
-    paddingTop: 45
+    paddingTop: 25
   }
 })

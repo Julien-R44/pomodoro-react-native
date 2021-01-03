@@ -15,7 +15,6 @@ import AppLoading from 'expo-app-loading'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from 'screens/Home'
-import ShortBreak from 'screens/ShortBreak'
 import { navigationRef } from './RootNavigation'
 import { StateProvider } from 'store/store'
 
@@ -47,7 +46,6 @@ export default function App() {
           }}
         >
           <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="ShortBreak" component={ShortBreak} />
         </Stack.Navigator>
       </NavigationContainer>
     </StateProvider>
