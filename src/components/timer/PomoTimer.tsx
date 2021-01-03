@@ -58,7 +58,7 @@ export default function PomoTimer({ selectedTab }: PomoTimerProps) {
 
   useEffect(() => {
     const selectedTabTimerDuration = {
-      pomo: 0.1,
+      pomo: pomodoroDuration,
       short: shortDuration,
       long: longDuration
     }[selectedTab]
@@ -67,7 +67,7 @@ export default function PomoTimer({ selectedTab }: PomoTimerProps) {
     setGaugeFill(0)
     setPomoStatus(PomoStatus.NOT_RUNNING)
     setTimeLeft(timerDuration * 60)
-  }, [selectedTab])
+  }, [selectedTab, pomodoroDuration, shortDuration, longDuration])
 
   useEffect(() => {
     setTimeLeft(timerDuration * 60)
