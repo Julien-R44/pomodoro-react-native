@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { TextInput, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
-import BaseText from '@components/BaseText'
+import BaseText from 'components/base/BaseText'
 
 interface NumericInputProps {
   value?: string

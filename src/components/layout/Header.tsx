@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
-import BaseText from '@components/BaseText'
+import BaseText from 'components/base/BaseText'
 
 export default function Header() {
   return <BaseText style={styles.title}>pomoreact.</BaseText>

@@ -15,7 +15,6 @@ import AppLoading from 'expo-app-loading'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from 'screens/Home'
-import { navigationRef } from './RootNavigation'
 import { StateProvider } from 'store/store'
 
 const Stack = createStackNavigator()
@@ -39,7 +38,7 @@ export default function App() {
 
   return (
     <StateProvider>
-      <NavigationContainer ref={navigationRef}>
+      <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
             headerShown: false

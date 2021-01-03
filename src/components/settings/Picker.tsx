@@ -1,6 +1,6 @@
 import React, { PropsWithChildren } from 'react'
 import { StyleSheet, View } from 'react-native'
-import BaseText from '@components/BaseText'
+import BaseText from 'components/base/BaseText'
 
 interface props {
   label: string

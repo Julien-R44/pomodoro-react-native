@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import { useStateValue } from 'store/store'
-import BaseText from '@components/BaseText'
+import BaseText from 'components/base/BaseText'
 
 export default function TabsSelector() {
   const [active, setActive] = useState('pomo')

@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, StyleSheet } from 'react-native'
 import { PomoStatus } from './PomoStatus'
-import BaseText from '@components/BaseText'
+import BaseText from 'components/base/BaseText'
 
 interface PomoTimerInnerProps {
   timeLeft: number

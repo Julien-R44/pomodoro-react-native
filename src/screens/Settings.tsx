@@ -1,12 +1,12 @@
 import { Ionicons } from '@expo/vector-icons'
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, Modal, Text } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Modal } from 'react-native'
 import NumericInput from '@components/inputs/NumericInput'
-import Delimiter from '@components/Delimiter'
+import Delimiter from 'components/layout/Delimiter'
 import FontPicker from '@components/settings/FontPicker'
 import ColorPicker from '@components/settings/ColorPicker'
 import { useStateValue } from 'store/store'
-import BaseText from '@components/BaseText'
+import BaseText from 'components/base/BaseText'
 
 export default function Settings() {
   const [modalVisible, setModalVisible] = useState(false)
