@@ -1,23 +1,19 @@
 import { Ionicons } from '@expo/vector-icons'
 import React, { useState } from 'react'
 import { View, StyleSheet, TouchableOpacity, Modal, Text } from 'react-native'
-import { Picker } from '@react-native-community/picker'
+import NumericInput from '@components/inputs/NumericInput'
+import Delimiter from '@components/Delimiter'
+import FontPicker from '@components/settings/FontPicker'
+import ColorPicker from '@components/settings/ColorPicker'
+import { useStateValue } from 'store/store'
 
 export default function Settings() {
   const [modalVisible, setModalVisible] = useState(false)
 
-  const renderTimeItems = () => {
-    const items = []
-    for (let i = 5; i < 55; i += 5) {
-      items.push(<Picker.Item key={i} label={i.toString()} value={i} />)
-    }
-    return items
-  }
-
   return (
     <View>
-      <View style={styles.modalContainer}>
-        <Modal animationType="fade" transparent={true} visible={modalVisible}>
+      <Modal animationType="fade" transparent={true} visible={modalVisible}>
+        <View style={styles.modalContainer}>
           <View style={styles.modalInnerContainer}>
             <View style={styles.modalTitleViewContainer}>
               <View style={styles.modalTitleView}>
@@ -32,17 +28,22 @@ export default function Settings() {
               <Text style={styles.settingTitle}>Time (minutes)</Text>
 
               <View style={styles.timesContainer}>
-                <Picker onValueChange={(value: any) => console.log(value)}>
-                  {renderTimeItems()}
-                </Picker>
-                <Picker onValueChange={(value: any) => console.log(value)}>
-                  {renderTimeItems()}
-                </Picker>
+                <NumericInput style={styles.timeInput} label="pomodoro" />
+                <NumericInput style={styles.timeInput} label="short break" />
+                <NumericInput label="long break" />
               </View>
+
+              <Delimiter />
+
+              <FontPicker />
+
+              <Delimiter />
+
+              <ColorPicker />
             </View>
           </View>
-        </Modal>
-      </View>
+        </View>
+      </Modal>
 
       <TouchableOpacity onPress={() => setModalVisible(true)}>
         <View style={styles.container}>
@@ -63,8 +64,9 @@ const styles = StyleSheet.create({
 
   modalContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: 'center'
+    // alignItems: 'center'
+    // width: '100%'
   },
 
   modalInnerContainer: {
@@ -89,14 +91,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingTop: 10,
-    paddingBottom: 10
+    paddingTop: 20,
+    paddingBottom: 20
   },
   modalTitleViewContainer: {
-    borderBottomColor: 'black',
+    borderBottomColor: '#d0cfd3',
     borderBottomWidth: 1
   },
   settingsContainer: {
+    paddingTop: 10,
     paddingHorizontal: 20
   },
   settingTitle: {
@@ -108,6 +111,10 @@ const styles = StyleSheet.create({
   },
   timesContainer: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'row',
+    marginTop: 10
+  },
+  timeInput: {
+    marginRight: 25
   }
 })

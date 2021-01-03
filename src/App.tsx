@@ -10,6 +10,8 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import Home from 'screens/Home'
 import ShortBreak from 'screens/ShortBreak'
+import { navigationRef } from './RootNavigation'
+import { StateProvider } from 'store/store'
 
 const Stack = createStackNavigator()
 
@@ -25,15 +27,17 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false
-        }}
-      >
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="ShortBreak" component={ShortBreak} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <StateProvider>
+      <NavigationContainer ref={navigationRef}>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false
+          }}
+        >
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="ShortBreak" component={ShortBreak} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </StateProvider>
   )
 }

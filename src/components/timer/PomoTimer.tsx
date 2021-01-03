@@ -4,6 +4,7 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import PomoTimerInner from './PomoTimerInner'
 import { PomoStatus } from './PomoStatus'
 import { LinearGradient } from 'expo-linear-gradient'
+import { useStateValue } from 'store/store'
 
 const WORK_SESSION_DURATION = 25
 
@@ -11,6 +12,7 @@ export default function PomoTimer() {
   const [pomoStatus, setPomoStatus] = useState(PomoStatus.NOT_RUNNING)
   const [timeLeft, setTimeLeft] = useState(WORK_SESSION_DURATION)
   const [gaugeFill, setGaugeFill] = useState(0)
+  const { state } = useStateValue()
   let timerInterval: NodeJS.Timeout
 
   useEffect(() => {
@@ -73,7 +75,7 @@ export default function PomoTimer() {
             width={10}
             backgroundWidth={5}
             fill={gaugeFill}
-            tintColor="#F87073"
+            tintColor={state.theme.mainColor}
             // tintColorSecondary="#00ff00"
             rotation={180}
             backgroundColor="#3d5875"
