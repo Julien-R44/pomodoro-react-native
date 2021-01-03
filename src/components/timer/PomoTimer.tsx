@@ -54,7 +54,7 @@ export default function PomoTimer({ selectedTab }: PomoTimerProps) {
     pomoStatus === PomoStatus.RUNNING ? 1000 : null
   )
 
-  statusRef.current = pomoStatus
+  statusRef.current = pomoStatus;
 
   useEffect(() => {
     const selectedTabTimerDuration = {
