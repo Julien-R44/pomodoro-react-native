@@ -36,7 +36,7 @@ export default function PomoTimer({ selectedTab }: PomoTimerProps) {
           Audio.Sound.createAsync(
             require('../../../assets/sounds/notification.mp3')
           ).then(async (response: unknown) => {
-            const { sound, status } = response
+            const { sound } = response
 
             Vibration.vibrate(10 * 100)
             sound.playAsync()
@@ -54,14 +54,14 @@ export default function PomoTimer({ selectedTab }: PomoTimerProps) {
     pomoStatus === PomoStatus.RUNNING ? 1000 : null
   )
 
-  statusRef.current = pomoStatus;
+  statusRef.current = pomoStatus
 
   useEffect(() => {
     const selectedTabTimerDuration = {
       pomo: pomodoroDuration,
       short: shortDuration,
       long: longDuration
-    }[selectedTab];
+    }[selectedTab]
 
     setTimerDuration(selectedTabTimerDuration)
     setGaugeFill(0)

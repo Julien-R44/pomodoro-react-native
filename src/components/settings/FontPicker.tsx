@@ -1,7 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import Picker from '@components/settings/Picker'
-import { Ionicons } from '@expo/vector-icons'
 import { useStateValue } from 'store/store'
 
 export default function FontPicker() {
