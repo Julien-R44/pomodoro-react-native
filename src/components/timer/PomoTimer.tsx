@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native'
+import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
 import PomoTimerInner from './PomoTimerInner'
 import { PomoStatus } from './PomoStatus'
 import { LinearGradient } from 'expo-linear-gradient'
 import { useStateValue } from 'store/store'
 
-const WORK_SESSION_DURATION = 25
-
 export default function PomoTimer() {
-  const [pomoStatus, setPomoStatus] = useState(PomoStatus.NOT_RUNNING)
-  const [timeLeft, setTimeLeft] = useState(WORK_SESSION_DURATION)
-  const [gaugeFill, setGaugeFill] = useState(0)
   const { state } = useStateValue()
+  const { pomodoroDuration } = state
+  const [timeLeft, setTimeLeft] = useState(pomodoroDuration * 60)
+  const [pomoStatus, setPomoStatus] = useState(PomoStatus.NOT_RUNNING)
+  const [gaugeFill, setGaugeFill] = useState(0)
   let timerInterval: NodeJS.Timeout
+
+  useEffect(() => {
+    setTimeLeft(pomodoroDuration * 60)
+  }, [pomodoroDuration])
 
   useEffect(() => {
     return () => {
@@ -23,7 +26,7 @@ export default function PomoTimer() {
 
   const getPercentageOfWorkSessionCompletion = (timeLeft: number) => {
     return (
-      ((WORK_SESSION_DURATION - timeLeft + 1) / WORK_SESSION_DURATION) * 100
+      ((pomodoroDuration * 60 - timeLeft + 1) / (pomodoroDuration * 60)) * 100
     )
   }
 
@@ -37,7 +40,7 @@ export default function PomoTimer() {
         clearInterval(timerInterval)
         setPomoStatus(PomoStatus.NOT_RUNNING)
         setGaugeFill(0)
-        return WORK_SESSION_DURATION
+        return pomodoroDuration
       }
       setGaugeFill(getPercentageOfWorkSessionCompletion(prevTimeLeft))
       return newTimeLeft

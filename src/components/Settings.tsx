@@ -10,6 +10,16 @@ import BaseText from '@components/BaseText'
 
 export default function Settings() {
   const [modalVisible, setModalVisible] = useState(false)
+  const [pomoDuration, setPomoDuration] = useState('25')
+  const { dispatch } = useStateValue()
+
+  const onPomoDurationUpdate = (newDuration: string) => {
+    setPomoDuration(newDuration)
+    dispatch({
+      type: 'UPDATE_POMODORO_DURATION',
+      pomodoroDuration: newDuration
+    })
+  }
 
   return (
     <View>
@@ -29,7 +39,12 @@ export default function Settings() {
               <BaseText style={styles.settingTitle}>Time (minutes)</BaseText>
 
               <View style={styles.timesContainer}>
-                <NumericInput style={styles.timeInput} label="pomodoro" />
+                <NumericInput
+                  value={pomoDuration}
+                  onChangeText={onPomoDurationUpdate}
+                  style={styles.timeInput}
+                  label="pomodoro"
+                />
                 <NumericInput style={styles.timeInput} label="short break" />
                 <NumericInput label="long break" />
               </View>

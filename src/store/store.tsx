@@ -1,24 +1,19 @@
 import React, { createContext, useContext, useReducer } from 'react'
+import IAppState from './IAppState'
+import reducer from './reducer'
 
-interface AppState {
-  theme: {
-    name: 'pink' | 'blue' | 'red'
-    mainColor: string
-  }
-  fontFamily: string
-}
-
-interface AppContext {
-  state: AppState
-  dispatch: React.Dispatch<any>
-}
-
-const initialState: AppState = {
+const initialState: IAppState = {
   theme: {
     name: 'red',
     mainColor: '#F87071'
   },
-  fontFamily: 'NunitoSans'
+  fontFamily: 'NunitoSans',
+  pomodoroDuration: 25
+}
+
+interface AppContext {
+  state: IAppState
+  dispatch: React.Dispatch<any>
 }
 
 const AppContext = createContext<AppContext>({
@@ -31,28 +26,7 @@ const StateProvider: React.FC = ({
 }: {
   children?: React.ReactNode
 }) => {
-  const [state, dispatch] = useReducer((state: AppState, action: any) => {
-    if (action.type === 'CHANGE_THEME') {
-      state = {
-        ...state,
-        theme: {
-          name: action.themeName,
-          mainColor: {
-            pink: '#DA81F8',
-            blue: '#6FF2FB',
-            red: '#F87071'
-          }[action.themeName]
-        }
-      }
-    } else if (action.type === 'CHANGE_FONT') {
-      state = {
-        ...state,
-        fontFamily: action.fontFamily
-      }
-    }
-
-    return state
-  }, initialState)
+  const [state, dispatch] = useReducer(reducer, initialState)
   return (
     <AppContext.Provider value={{ state, dispatch }}>
       {children}

@@ -1,24 +1,23 @@
 import React, { useState } from 'react'
-import {
-  TextInput,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Text
-} from 'react-native'
+import { TextInput, View, StyleSheet, TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import BaseText from '@components/BaseText'
 
-interface props {
+interface NumericInputProps {
+  value?: string
+  onChangeText?: (value: string) => void
   label: string
   style?: Record<string, unknown>
 }
 
-export default function NumericInput({ label, style = {} }: props) {
-  const [inputValue, setInputValue] = useState('25')
+export default function NumericInput(props: NumericInputProps) {
+  const { label, style = {}, onChangeText } = props
+  const [inputValue, setInputValue] = useState(props.value || '0')
 
   const onChevronPress = (increment: number) => {
-    setInputValue((+inputValue + increment).toString())
+    const newValue = (+inputValue + increment).toString()
+    setInputValue(newValue)
+    onChangeText && onChangeText(newValue)
   }
 
   return (
@@ -26,9 +25,10 @@ export default function NumericInput({ label, style = {} }: props) {
       <BaseText style={styles.label}>{label}</BaseText>
       <View style={styles.inputContainer}>
         <TextInput
-          value={inputValue}
+          value={props.value}
           style={styles.input}
           underlineColorAndroid="rgba(0,0,0,0)"
+          onChangeText={props.onChangeText}
           keyboardType="numeric"
           editable={false}
         />

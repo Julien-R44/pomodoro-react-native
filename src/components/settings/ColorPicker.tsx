@@ -1,12 +1,11 @@
-import React, { useContext } from 'react'
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
+import React from 'react'
+import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import Picker from '@components/settings/Picker'
 import { Ionicons } from '@expo/vector-icons'
 import { useStateValue } from 'store/store'
-import { AppContext } from 'store/store'
 
 export default function FontPicker() {
-  const { state, dispatch } = useContext(AppContext)
+  const { state, dispatch } = useStateValue()
   const { theme } = state
 
   const onColorPress = (colorThemeName: string) => {
