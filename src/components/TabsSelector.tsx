@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, TouchableOpacity } from 'react-native'
 import { navigate } from 'RootNavigation'
-// import Theme from 'style/theme'
 import { useStateValue } from 'store/store'
+import BaseText from '@components/BaseText'
 
 export default function TabsSelector() {
   const [active, setActive] = useState(1)
-  const { state, dispatch } = useStateValue()
+  const { state } = useStateValue()
 
   const onTabPress = (tabId: number) => {
     setActive(tabId)
@@ -23,17 +23,23 @@ export default function TabsSelector() {
       <View style={styles.container}>
         <TouchableOpacity onPress={() => onTabPress(1)}>
           <View style={[styles.item, active === 1 ? activeItem : []]}>
-            <Text style={styles.itemText}>pomodoro</Text>
+            <BaseText weight="light" style={styles.itemText}>
+              pomodoro
+            </BaseText>
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => onTabPress(2)}>
           <View style={[styles.item, active === 2 ? activeItem : []]}>
-            <Text style={styles.itemText}>short break</Text>
+            <BaseText weight="light" style={styles.itemText}>
+              short break
+            </BaseText>
           </View>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => onTabPress(3)}>
           <View style={[styles.item, active === 3 ? activeItem : []]}>
-            <Text style={styles.itemText}>long break</Text>
+            <BaseText weight="light" style={styles.itemText}>
+              long break
+            </BaseText>
           </View>
         </TouchableOpacity>
       </View>
@@ -58,7 +64,6 @@ const styles = StyleSheet.create({
   },
   itemText: {
     color: 'white',
-    fontFamily: 'NunitoSans_400Regular',
     paddingVertical: 5
   }
 })

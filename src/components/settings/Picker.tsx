@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
+import BaseText from '@components/BaseText'
 
 interface props {
   label: string
@@ -8,7 +9,7 @@ interface props {
 export default function Picker({ label, children }: PropsWithChildren<props>) {
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>{label}</Text>
+      <BaseText style={styles.label}>{label}</BaseText>
       <View>{children}</View>
     </View>
   )
@@ -23,7 +24,6 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 12,
     letterSpacing: 4,
-    textTransform: 'uppercase',
-    fontFamily: 'NunitoSans_700Bold'
+    textTransform: 'uppercase'
   }
 })

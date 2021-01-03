@@ -7,6 +7,7 @@ import {
   Text
 } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
+import BaseText from '@components/BaseText'
 
 interface props {
   label: string
@@ -22,7 +23,7 @@ export default function NumericInput({ label, style = {} }: props) {
 
   return (
     <View style={[styles.container, style]}>
-      <Text style={styles.label}>{label}</Text>
+      <BaseText style={styles.label}>{label}</BaseText>
       <View style={styles.inputContainer}>
         <TextInput
           value={inputValue}
@@ -49,7 +50,6 @@ const styles = StyleSheet.create({
     flex: 1
   },
   label: {
-    fontFamily: 'NunitoSans_700Bold',
     fontSize: 14,
     marginBottom: 5,
     color: '#d0cfd3'

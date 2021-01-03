@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   selector: {
-    height: 25,
-    width: 25,
+    height: 40,
+    width: 40,
     marginRight: 10,
     borderRadius: 50,
     justifyContent: 'center',

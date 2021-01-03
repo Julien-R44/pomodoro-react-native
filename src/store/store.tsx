@@ -2,9 +2,10 @@ import React, { createContext, useContext, useReducer } from 'react'
 
 interface AppState {
   theme: {
-    name: string
+    name: 'pink' | 'blue' | 'red'
     mainColor: string
   }
+  fontFamily: string
 }
 
 interface AppContext {
@@ -16,7 +17,8 @@ const initialState: AppState = {
   theme: {
     name: 'red',
     mainColor: '#F87071'
-  }
+  },
+  fontFamily: 'NunitoSans'
 }
 
 const AppContext = createContext<AppContext>({
@@ -24,7 +26,11 @@ const AppContext = createContext<AppContext>({
   dispatch: () => null
 })
 
-const StateProvider: React.FC = ({ children }) => {
+const StateProvider: React.FC = ({
+  children
+}: {
+  children?: React.ReactNode
+}) => {
   const [state, dispatch] = useReducer((state: AppState, action: any) => {
     if (action.type === 'CHANGE_THEME') {
       state = {
@@ -37,6 +43,11 @@ const StateProvider: React.FC = ({ children }) => {
             red: '#F87071'
           }[action.themeName]
         }
+      }
+    } else if (action.type === 'CHANGE_FONT') {
+      state = {
+        ...state,
+        fontFamily: action.fontFamily
       }
     }
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { PomoStatus } from './PomoStatus'
+import BaseText from '@components/BaseText'
 
 export default class PomoTimmerInner extends React.Component<{
   timeLeft: number
@@ -31,10 +32,12 @@ export default class PomoTimmerInner extends React.Component<{
   render() {
     return (
       <View style={styles.gaugeInnerContainer}>
-        <Text style={styles.gaugeTimeLeft}>
+        <BaseText weight="bold" style={styles.gaugeTimeLeft}>
           {`${this.minutesLeft()} : ${this.secondsLeft()}`}
-        </Text>
-        <Text style={styles.gaugePause}>{this.getInnerContent()}</Text>
+        </BaseText>
+        <BaseText weight="light" style={styles.gaugePause}>
+          {this.getInnerContent()}
+        </BaseText>
       </View>
     )
   }
@@ -48,13 +51,11 @@ const styles = StyleSheet.create({
   },
   gaugeTimeLeft: {
     color: 'white',
-    fontFamily: 'NunitoSans_700Bold',
     fontSize: 49
   },
   gaugePause: {
     color: 'white',
     fontSize: 16,
-    fontFamily: 'NunitoSans_200ExtraLight',
     textTransform: 'uppercase',
     letterSpacing: 10
   }

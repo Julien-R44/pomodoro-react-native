@@ -1,8 +1,9 @@
 import React from 'react'
-import { Text, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
+import BaseText from '@components/BaseText'
 
 export default function Header() {
-  return <Text style={styles.title}>pomoreact.</Text>
+  return <BaseText style={styles.title}>pomoreact.</BaseText>
 }
 
 const styles = StyleSheet.create({
@@ -10,7 +11,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 32,
     textAlign: 'center',
-    fontFamily: 'NunitoSans_700Bold',
     paddingTop: 45
   }
 })

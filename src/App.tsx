@@ -3,6 +3,12 @@ import {
   NunitoSans_200ExtraLight,
   NunitoSans_400Regular,
   NunitoSans_700Bold,
+  Montserrat_200ExtraLight,
+  Montserrat_400Regular,
+  Montserrat_700Bold,
+  RobotoSlab_200ExtraLight,
+  RobotoSlab_400Regular,
+  RobotoSlab_700Bold,
   useFonts
 } from '@expo-google-fonts/dev'
 import AppLoading from 'expo-app-loading'
@@ -19,7 +25,13 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     NunitoSans_200ExtraLight,
     NunitoSans_400Regular,
-    NunitoSans_700Bold
+    NunitoSans_700Bold,
+    Montserrat_200ExtraLight,
+    Montserrat_400Regular,
+    Montserrat_700Bold,
+    RobotoSlab_200ExtraLight,
+    RobotoSlab_400Regular,
+    RobotoSlab_700Bold
   })
 
   if (!fontsLoaded) {

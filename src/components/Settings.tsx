@@ -6,6 +6,7 @@ import Delimiter from '@components/Delimiter'
 import FontPicker from '@components/settings/FontPicker'
 import ColorPicker from '@components/settings/ColorPicker'
 import { useStateValue } from 'store/store'
+import BaseText from '@components/BaseText'
 
 export default function Settings() {
   const [modalVisible, setModalVisible] = useState(false)
@@ -17,7 +18,7 @@ export default function Settings() {
           <View style={styles.modalInnerContainer}>
             <View style={styles.modalTitleViewContainer}>
               <View style={styles.modalTitleView}>
-                <Text style={styles.modalTitle}>Settings</Text>
+                <BaseText style={styles.modalTitle}>Settings</BaseText>
                 <TouchableOpacity onPress={() => setModalVisible(false)}>
                   <Ionicons name="md-close-outline" size={35} color="black" />
                 </TouchableOpacity>
@@ -25,7 +26,7 @@ export default function Settings() {
             </View>
 
             <View style={styles.settingsContainer}>
-              <Text style={styles.settingTitle}>Time (minutes)</Text>
+              <BaseText style={styles.settingTitle}>Time (minutes)</BaseText>
 
               <View style={styles.timesContainer}>
                 <NumericInput style={styles.timeInput} label="pomodoro" />
@@ -84,8 +85,7 @@ const styles = StyleSheet.create({
     elevation: 5
   },
   modalTitle: {
-    fontSize: 25,
-    fontFamily: 'NunitoSans_700Bold'
+    fontSize: 25
   },
   modalTitleView: {
     flexDirection: 'row',
@@ -106,8 +106,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     letterSpacing: 4,
     marginTop: 10,
-    textTransform: 'uppercase',
-    fontFamily: 'NunitoSans_700Bold'
+    textTransform: 'uppercase'
   },
   timesContainer: {
     display: 'flex',
