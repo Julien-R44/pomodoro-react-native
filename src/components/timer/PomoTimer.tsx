@@ -61,7 +61,7 @@ export default function PomoTimer({ selectedTab }: PomoTimerProps) {
       pomo: pomodoroDuration,
       short: shortDuration,
       long: longDuration
-    }[selectedTab]
+    }[selectedTab];
 
     setTimerDuration(selectedTabTimerDuration)
     setGaugeFill(0)
